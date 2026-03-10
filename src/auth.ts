@@ -11,10 +11,10 @@ declare module 'next-auth' {
   }
 }
 
-declare module 'next-auth/jwt' {
-  interface JWT {
-    dbUserId?: number;
-  }
+interface GitHubProfile {
+  id: number;
+  login: string;
+  avatar_url: string;
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -22,7 +22,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, account, profile }) {
       if (account && profile) {
-        const githubProfile = profile as { id: number; login: string; avatar_url: string };
+        const githubProfile = profile as unknown as GitHubProfile;
         const [user] = await db
           .insert(users)
           .values({
@@ -38,12 +38,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             },
           })
           .returning();
-        token.dbUserId = user.id;
+        (token as Record<string, unknown>).dbUserId = user.id;
       }
       return token;
     },
     async session({ session, token }) {
-      session.user.id = String(token.dbUserId ?? '');
+      session.user.id = String((token as Record<string, unknown>).dbUserId ?? '');
       return session;
     },
   },
