@@ -3,10 +3,10 @@ import { test, expect } from '@playwright/test';
 test.describe('Editor page', () => {
   test('loads and shows the 4 Monaco preview tabs', async ({ page }) => {
     await page.goto('/editor');
-    await expect(page.getByText('.ts')).toBeVisible();
-    await expect(page.getByText('.tsx')).toBeVisible();
-    await expect(page.getByText('.jsx')).toBeVisible();
-    await expect(page.getByText('.css')).toBeVisible();
+    await expect(page.getByRole('tab', { name: '.ts', exact: true })).toBeVisible();
+    await expect(page.getByRole('tab', { name: '.tsx', exact: true })).toBeVisible();
+    await expect(page.getByRole('tab', { name: '.jsx', exact: true })).toBeVisible();
+    await expect(page.getByRole('tab', { name: '.css', exact: true })).toBeVisible();
   });
 
   test('shows color picker placeholder when no token is selected', async ({ page }) => {
@@ -34,17 +34,14 @@ test.describe('Editor page', () => {
 
   test('clicking a workbench token opens the color picker', async ({ page }) => {
     await page.goto('/editor');
-    // Click the first token panel item (Background under Editor)
     await page.getByText('Background').first().click();
-    // Color picker should appear with hex input
     await expect(page.locator('input[maxlength="9"]')).toBeVisible();
   });
 
   test('switching preview tabs changes active tab', async ({ page }) => {
     await page.goto('/editor');
-    await page.getByText('.tsx').click();
-    // The .tsx tab should now be active (aria-selected)
-    const tsxTab = page.getByRole('tab', { name: '.tsx' });
+    await page.getByRole('tab', { name: '.tsx', exact: true }).click();
+    const tsxTab = page.getByRole('tab', { name: '.tsx', exact: true });
     await expect(tsxTab).toHaveAttribute('data-state', 'active');
   });
 });
