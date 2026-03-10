@@ -1,6 +1,5 @@
 'use client';
 
-import { useContext } from 'react';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { TokenPanelItem } from './TokenPanelItem';
 import { useTheme } from '@/contexts/ThemeContext';

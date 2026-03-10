@@ -1,14 +1,11 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { ThemePreviewTabs } from '../ThemePreviewTabs';
 
-// Monaco editor is a browser-only package; mock it for jsdom tests
 vi.mock('@monaco-editor/react', () => ({
   default: () => <div data-testid="monaco-editor" />,
 }));
 
-// Provide required context
 vi.mock('@/contexts/ThemeEditorUIContext', () => ({
   useThemeEditorUI: () => ({
     state: { activePreviewTab: 'ts', selectedTokenKey: null, isAdvancedView: false },
