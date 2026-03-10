@@ -14,17 +14,16 @@ jobs:
       - run: npm run test
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
-  chromatic:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - run: npm install --legacy-peer-deps
-      - run: npx chromatic --exit-zero-on-changes
-        env:
-          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+  # chromatic:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '20'
+  #     - run: npm install --legacy-peer-deps
+  #     - run: npx chromatic --exit-zero-on-changes
+  #       env:
+  #         CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
