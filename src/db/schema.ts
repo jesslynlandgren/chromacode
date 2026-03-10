@@ -1,13 +1,14 @@
-// Database schema — wired up in Phase 10 (Vercel Postgres + Drizzle)
-// Requires DATABASE_URL env var
-
+import {
+  pgTable,
+  serial,
+  varchar,
+  text,
+  integer,
+  boolean,
+  timestamp,
+  jsonb,
+} from 'drizzle-orm/pg-core';
 import type { TextMateRule, SemanticColors } from '@/types';
-
-// Schema is defined here for reference. Run `npm run db:push` after
-// connecting Vercel Postgres to create the tables.
-
-/*
-import { pgTable, serial, varchar, text, integer, boolean, timestamp, jsonb } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
@@ -19,7 +20,9 @@ export const users = pgTable('users', {
 
 export const themes = pgTable('themes', {
   id: serial('id').primaryKey(),
-  userId: integer('user_id').references(() => users.id).notNull(),
+  userId: integer('user_id')
+    .references(() => users.id)
+    .notNull(),
   name: varchar('name', { length: 255 }).notNull(),
   basedOn: varchar('based_on', { length: 255 }),
   workbenchColors: jsonb('workbench_colors').notNull().$type<Record<string, string>>(),
@@ -29,7 +32,7 @@ export const themes = pgTable('themes', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
-*/
 
-export type {}; // keep the module valid
-export type { TextMateRule, SemanticColors }; // re-export for schema consumers
+export type User = typeof users.$inferSelect;
+export type Theme = typeof themes.$inferSelect;
+export type NewTheme = typeof themes.$inferInsert;

@@ -13,12 +13,14 @@
     "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
+    "@neondatabase/serverless": "^0.10.4",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-dialog": "^1.1.0",
     "@radix-ui/react-dropdown-menu": "^2.1.0",
@@ -26,7 +28,6 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.0",
-    "@vercel/postgres": "^0.10.0",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",

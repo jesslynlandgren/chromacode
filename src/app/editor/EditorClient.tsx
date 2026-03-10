@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useThemeEditorUI } from '@/contexts/ThemeEditorUIContext';
 import { TokenPanel } from '@/components/TokenPanel';
@@ -10,11 +11,39 @@ import { WORKBENCH_TOKEN_GROUPS, TEXTMATE_TOKENS, SEMANTIC_TOKENS } from '@/cons
 import type { TokenLayerKey } from '@/types';
 import classNames from 'classnames';
 
-export function EditorClient() {
+interface EditorClientProps {
+  initialThemeId?: string;
+}
+
+export function EditorClient({ initialThemeId }: EditorClientProps) {
   const { state: themeState, dispatch } = useTheme();
   const { state: uiState } = useThemeEditorUI();
+  const [savedThemeId, setSavedThemeId] = useState<number | null>(
+    initialThemeId ? parseInt(initialThemeId) : null,
+  );
 
   const selectedKey = uiState.selectedTokenKey as TokenLayerKey | null;
+
+  useEffect(() => {
+    if (!initialThemeId) return;
+    fetch(`/api/themes/${initialThemeId}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data) {
+          dispatch({
+            type: 'LOAD_THEME',
+            theme: {
+              name: data.name,
+              basedOn: data.basedOn ?? null,
+              workbenchColors: data.workbenchColors,
+              tokenColors: data.tokenColors,
+              semanticColors: data.semanticColors,
+            },
+          });
+        }
+      })
+      .catch(() => {});
+  }, [initialThemeId, dispatch]);
 
   function getColorForKey(key: TokenLayerKey | null): string {
     if (!key) return '#888888';
@@ -77,7 +106,7 @@ export function EditorClient() {
 
   return (
     <div className="flex h-screen flex-col overflow-hidden">
-      <EditorHeader />
+      <EditorHeader savedThemeId={savedThemeId} onThemeSaved={setSavedThemeId} />
       <div className="flex flex-1 overflow-hidden">
         {/* Left: Token Panel */}
         <TokenPanel />

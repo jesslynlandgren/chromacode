@@ -1,13 +1,40 @@
 import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
+import { db } from '@/db';
+import { themes } from '@/db/schema';
+import { eq, desc } from 'drizzle-orm';
+import type { ThemeState } from '@/types';
 
-// GET /api/themes — list user themes (Phase 12)
-export function GET() {
-  return NextResponse.json({ themes: [] });
+export async function GET() {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  const userThemes = await db
+    .select()
+    .from(themes)
+    .where(eq(themes.userId, parseInt(session.user.id)))
+    .orderBy(desc(themes.updatedAt));
+
+  return NextResponse.json({ themes: userThemes });
 }
 
-// POST /api/themes — create theme (Phase 12)
 export async function POST(request: Request) {
-  const body = await request.json();
-  // TODO: persist to DB in Phase 12
-  return NextResponse.json({ id: null, ...body }, { status: 201 });
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  const body: ThemeState = await request.json();
+
+  const [theme] = await db
+    .insert(themes)
+    .values({
+      userId: parseInt(session.user.id),
+      name: body.name,
+      basedOn: body.basedOn ?? null,
+      workbenchColors: body.workbenchColors,
+      tokenColors: body.tokenColors,
+      semanticColors: body.semanticColors,
+    })
+    .returning();
+
+  return NextResponse.json(theme, { status: 201 });
 }
