@@ -50,10 +50,12 @@ describe('ColorPicker', () => {
         onChange={onChange}
       />,
     );
-    const input = screen.getByRole('textbox');
+    // Two textboxes render: the mocked HexColorPicker and the manual hex input.
+    // Target the manual hex input (maxlength="9"), not the color picker mock.
+    const inputs = screen.getAllByRole('textbox');
+    const input = inputs.find((el) => el.getAttribute('maxlength') === '9')!;
     await user.clear(input);
     await user.type(input, '#ff0000');
-    // blur to trigger validation
     await user.tab();
     expect(onChange).toHaveBeenCalledWith('#ff0000');
   });

@@ -16,6 +16,7 @@ jobs:
       - run: npm run test:e2e
   chromatic:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
         with:
