@@ -16,9 +16,9 @@ A VS Code theme builder with live Monaco preview, full token coverage, and JSON/
 - Tailwind CSS + shadcn/ui
 - Monaco Editor (`@monaco-editor/react`)
 - NextAuth.js v5 (GitHub OAuth)
-- Vercel Postgres + Drizzle ORM
+- Neon Postgres + Drizzle ORM
 
-## Local Development
+## Development
 
 ### Option 1: Dev Container (recommended)
 
@@ -29,7 +29,7 @@ A VS Code theme builder with live Monaco preview, full token coverage, and JSON/
 ### Option 2: Local
 
 ```bash
-npm install
+npm install --legacy-peer-deps
 cp .env.example .env.local
 # fill in .env.local values
 npm run dev
@@ -39,12 +39,10 @@ npm run dev
 
 | Variable | Description |
 |---|---|
-| `DATABASE_URL` | Postgres connection string |
-| `NEXTAUTH_SECRET` | Random secret for NextAuth sessions |
-| `NEXTAUTH_URL` | App base URL |
+| `DATABASE_URL` | Neon Postgres connection string |
+| `AUTH_SECRET` | Random secret — `openssl rand -base64 32` |
 | `AUTH_GITHUB_ID` | GitHub OAuth app client ID |
 | `AUTH_GITHUB_SECRET` | GitHub OAuth app client secret |
-| `CHROMATIC_PROJECT_TOKEN` | Chromatic project token (CI only) |
 
 ## Scripts
 
@@ -56,10 +54,12 @@ npm run typecheck     # TypeScript check
 npm run test          # Vitest unit tests
 npm run test:e2e      # Playwright E2E tests
 npm run storybook     # Storybook dev server
-npm run db:push       # push Drizzle schema to DB
+npm run db:push       # push Drizzle schema to DB (runs automatically on Vercel deploy)
 npm run db:studio     # Drizzle Studio GUI
 ```
 
 ## Deployment
 
-Connect the GitHub repo to Vercel. Set env vars in the Vercel dashboard. Auto-deploys on push to `main`.
+Connected to Vercel — auto-deploys on push to `main`. DB schema migrations run automatically before each build.
+
+See [CLAUDE.md](./CLAUDE.md) for full architecture and AI context.
