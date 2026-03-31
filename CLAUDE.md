@@ -191,7 +191,6 @@ See `standards/` in this repo for full details. Summary:
 - Tasks are tracked in **Linear** under the [Chromacode project](https://linear.app/jesslyn/project/chromacode-61a6469c4baa).
 - Planning happens in this repo via `/jl-plan-project` — brainstorm vision, define user jobs, stress-test, sequence work, harden requirements, create Linear tickets.
 - Each ticket should be one PR in scope with enough context for an AI agent to implement independently.
-- Run `/sync-standards` periodically to check for updates to shared standards from post-it.
 
 ## Environment Variables
 
