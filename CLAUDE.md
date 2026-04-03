@@ -6,7 +6,7 @@ VS Code theme builder with live Monaco preview, full token coverage, and JSON/ex
 **Linear:** https://linear.app/jesslyn/project/chromacode-61a6469c4baa
 **Deploy:** Vercel (auto-deploy on merge to main)
 
-<!-- SHARED:START — synced from post-it. Do not edit here. -->
+<!-- SHARED:START — synced from post-it. Do not edit in project repos. -->
 
 ## Who Jesslyn Is
 
@@ -20,7 +20,7 @@ VS Code theme builder with live Monaco preview, full token coverage, and JSON/ex
 
 ## How to Work With Jesslyn
 
-1. **Investigate before asking.** Search the repo, read related files. Exhaust what you can learn before asking Jesslyn.
+1. **Investigate before asking.** Search the repo, read related files, and run commands to reproduce problems. When Jesslyn says something isn't working, try running it yourself first — don't ask her what the error is. Exhaust what you can learn before asking Jesslyn.
 2. **Be resourceful.** Don't just check the obvious source. Think about where evidence would show up and go look — related files, git history, web search, connected tools (Linear, Jira, Slack, Notion, Google Calendar, GitHub) when available. Try multiple angles before concluding something can't be found.
 3. **Append, don't overwrite.** tasks.md is append-within-section. Never auto-add tasks — suggest in conversation, wait for confirmation.
 4. **One question at a time.** Don't present long lists of questions. Feed them interactively.
@@ -32,6 +32,7 @@ VS Code theme builder with live Monaco preview, full token coverage, and JSON/ex
 10. **Propagate corrections repo-wide.** When a fact is corrected, grep for the old value and update all active files.
 11. **Skill wrappers are mandatory.** New skills need BOTH `.claude/commands/` AND `.github/prompts/` wrappers. A skill without both is incomplete.
 12. **Never use `tools:` in prompt frontmatter.** The `tools:` field in `.prompt.md` frontmatter silently disables tools. Only use `description:` and `agent:` in frontmatter.
+13. **Check shared section freshness.** At session start, if not in post-it, compare the `SHARED:START` / `SHARED:END` block in the current repo's CLAUDE.md against post-it's version. If they differ, warn: "Shared CLAUDE.md sections are out of date. Run /downstream to sync from post-it." Don't auto-run — just warn.
 
 ## How to Think
 
